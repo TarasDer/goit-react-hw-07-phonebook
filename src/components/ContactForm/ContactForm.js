@@ -1,10 +1,10 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { addContacts } from 'redux/constantsSlice';
+import { addContactThunk } from 'redux/operations';
 import { getContacts } from 'redux/selectors';
 import css from './ContactForm.module.css';
 
 export function ContactForm() {
-  const contacts = useSelector(getContacts);
+  const { items } = useSelector(getContacts);
   const dispatch = useDispatch();
 
   const handleSubmit = event => {
@@ -12,7 +12,7 @@ export function ContactForm() {
 
     const form = event.target;
     if (
-      contacts.find(
+      items.find(
         contact =>
           contact.name.toLowerCase() === form.elements.name.value.toLowerCase()
       )
@@ -22,7 +22,7 @@ export function ContactForm() {
     }
 
     dispatch(
-      addContacts({
+      addContactThunk({
         name: form.elements.name.value,
         number: form.elements.number.value,
       })
